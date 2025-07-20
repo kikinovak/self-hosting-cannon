@@ -140,3 +140,48 @@ Find your Tailscale IPv4 address:
 > to consider disabling key expiry to prevent the need to periodically
 > re-authenticate.
 
+
+Install Docker on Ubuntu
+------------------------
+
+Install Docker Dependencies:
+
+```console
+$ sudo apt install -y ca-certificates curl
+```
+
+Install the Docker GPG key:
+
+```console
+$ sudo install -m 0755 -d /etc/apt/keyrings
+$ sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+$ sudo chmod a+r /etc/apt/keyrings/docker.asc
+```
+
+Add the Docker Software Repository:
+
+```console
+$ echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+$ sudo apt update
+```
+
+Install Docker:
+
+```console
+$ sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+
+Add Your Account to the `docker` group:
+
+```console
+$ sudo usermod -aG docker $USER
+$ newgrp docker
+```
+
+Test Docker:
+
+```console
+$ docker --version
+$ docker ps
+```
+
